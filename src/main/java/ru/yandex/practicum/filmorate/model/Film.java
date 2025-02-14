@@ -9,10 +9,6 @@ import ru.yandex.practicum.filmorate.annotation.BeforeDate;
 import java.time.LocalDate;
 
 
-/**
- * Film.
- */
-
 @Data
 @Validated
 @AllArgsConstructor

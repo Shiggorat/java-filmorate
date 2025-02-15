@@ -20,7 +20,7 @@ public class Film {
     private String description;
     @BeforeDate(message = "Дата выпуска фильма не может быть раньше 28.12.1895")
     private LocalDate releaseDate;
-    @Positive(message = "Продолжительность фильма не может быть меньше 0")
+    @Positive(message = "Продолжительность фильма не может быть меньше или равна 0")
     private Integer duration;
 
 }

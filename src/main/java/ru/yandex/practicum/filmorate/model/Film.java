@@ -2,7 +2,6 @@ package ru.yandex.practicum.filmorate.model;
 
 import jakarta.validation.constraints.*;
 import lombok.*;
-import org.springframework.validation.annotation.Validated;
 import ru.yandex.practicum.filmorate.annotation.BeforeDate;
 
 
@@ -10,7 +9,6 @@ import java.time.LocalDate;
 
 
 @Data
-@Validated
 @AllArgsConstructor
 public class Film {
     private Long id;

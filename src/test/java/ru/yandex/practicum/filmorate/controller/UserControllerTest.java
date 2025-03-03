@@ -8,6 +8,7 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import ru.yandex.practicum.filmorate.model.User;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -20,7 +21,7 @@ public class UserControllerTest {
     void start() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
-        user = new User(2L, "Имя", "email@yandex.ru", "login", LocalDate.of(1988,10,25));
+        user = new User(2L, "Имя", "email@yandex.ru", "login", LocalDate.of(1988,10,25), new HashSet<>());
     }
 
     @Test

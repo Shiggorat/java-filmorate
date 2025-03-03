@@ -8,6 +8,8 @@ import org.springframework.validation.annotation.Validated;
 import ru.yandex.practicum.filmorate.annotation.AfterDate;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Data
@@ -23,4 +25,17 @@ public class User {
     private String login;
     @AfterDate(message = "Дата рождения указана неверно")
     private LocalDate birthday;
+    private Set<Long> friends;
+
+    public User() {
+        this.friends = new HashSet<>();
+    }
+
+    public void userAddFriend(Long userId) {
+        this.friends.add(userId);
+    }
+
+    public void userRemoveFriend(Long userId) {
+        this.friends.remove(userId);
+    }
 }

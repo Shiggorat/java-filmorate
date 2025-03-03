@@ -4,8 +4,9 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 import ru.yandex.practicum.filmorate.annotation.BeforeDate;
 
-
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Data
@@ -20,5 +21,21 @@ public class Film {
     private LocalDate releaseDate;
     @Positive(message = "Продолжительность фильма не может быть меньше 0")
     private Integer duration;
+    private Set<Long> likes;
 
-}
+    public Film() {
+        this.likes = new HashSet<>();
+    }
+
+    public void filmAddLike(Long userId) {
+        this.likes.add(userId);
+    }
+
+    public void filmRemoveLike(Long userId) {
+        this.likes.remove(userId);
+    }
+
+    public int getAllLikes() {
+        return this.likes.size();
+    }
+ }

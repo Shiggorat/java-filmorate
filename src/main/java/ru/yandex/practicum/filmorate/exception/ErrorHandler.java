@@ -1,36 +1,33 @@
 package ru.yandex.practicum.filmorate.exception;
 
-import jakarta.validation.ConstraintViolationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import ru.yandex.practicum.filmorate.controller.FilmController;
+import org.springframework.web.bind.annotation.*;
 
 
-@ControllerAdvice
+@Slf4j
+@RestControllerAdvice
 public class ErrorHandler {
-    private static final Logger log = LoggerFactory.getLogger(FilmController.class);
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
-    public ValidationException handleValidationException(MethodArgumentNotValidException e) {
-        log.error("Ошибка валидации аргумента");
-        return new ValidationException(e.getMessage());
-
+    public ErrorResponse handleValidationException(final ValidationException e) {
+        log.error("Ошибка валидации");
+        return new ErrorResponse("Ошибка валидации", e.getMessage());
     }
 
-    @ExceptionHandler(ConstraintViolationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
-    public ValidationException handleValidationException(ConstraintViolationException e) {
-        log.error("Ошибка валидации");
-        return new ValidationException(e.getMessage());
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleNotFoundException(final NotFoundException e) {
+        log.error("Объект не найден");
+        return new ErrorResponse("Объект не найден", e.getMessage());
+    }
 
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handlerAnyException(final RuntimeException e) {
+        log.error("Внутренняя ошибка сервера");
+        return new ErrorResponse("Внутренняя ошибка сервера", e.getMessage());
     }
 }

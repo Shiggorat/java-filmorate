@@ -9,6 +9,7 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import ru.yandex.practicum.filmorate.model.Film;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -21,7 +22,7 @@ public class FilmControllerTest {
     void start() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
-        film = new Film(1L,"film1", "descr1", LocalDate.of(2025,2,12), 100);
+        film = new Film(1L,"film1", "descr1", LocalDate.of(2025,2,12), 100, new HashSet<>());
     }
 
     @Test

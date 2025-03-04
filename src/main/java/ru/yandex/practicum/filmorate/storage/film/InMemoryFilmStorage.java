@@ -3,14 +3,9 @@ package ru.yandex.practicum.filmorate.storage.film;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.filmorate.exception.NotFoundException;
-import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Component
@@ -18,7 +13,7 @@ import java.util.Map;
 public class InMemoryFilmStorage implements FilmStorage {
 
     private final Map<Long, Film> films = new HashMap<>();
-    private final InMemoryUserStorage userStorage;
+
 
     @Override
     public Film createFilm(Film film) {
@@ -32,21 +27,13 @@ public class InMemoryFilmStorage implements FilmStorage {
     @Override
     public Film updateFilm(Film film) {
         log.debug("Starting update {}", film);
-        if (film.getId() == null) {
-            log.error("нет айди");
-            throw new ValidationException("Id должен быть указан");
-        }
-        if (films.containsKey(film.getId())) {
-            Film oldFilm = films.get(film.getId());
-            oldFilm.setName(film.getName());
-            oldFilm.setDescription(film.getDescription());
-            oldFilm.setDuration(film.getDuration());
-            oldFilm.setReleaseDate(film.getReleaseDate());
-            log.debug("Updated {}", film);
-            return oldFilm;
-        }
-        log.error("такого айди нет {}", film.getId());
-        throw new NotFoundException("Фильм с id = " + film.getId() + " не найден");
+        Film oldFilm = films.get(film.getId());
+        oldFilm.setName(film.getName());
+        oldFilm.setDescription(film.getDescription());
+        oldFilm.setDuration(film.getDuration());
+        oldFilm.setReleaseDate(film.getReleaseDate());
+        log.debug("Updated {}", film);
+        return oldFilm;
     }
 
     @Override
@@ -54,29 +41,17 @@ public class InMemoryFilmStorage implements FilmStorage {
         return films.values().stream().toList();
     }
 
+    public List<Long> getAllFilmsID() {
+        return films.keySet().stream().toList();
+    }
+
     @Override
     public void addLike(Long id, Long userId) {
-        if (!films.containsKey(id)) {
-            log.error("ошибка с id  {}", id);
-            throw new NotFoundException("Фильма с таким id найдено");
-        }
-        if (!userStorage.getUsersId().contains(userId)) {
-            log.error("ошибка с id  {}", userId);
-            throw new NotFoundException("Юзера с таким id найдено");
-        }
         films.get(id).filmAddLike(userId);
     }
 
     @Override
     public void removeLike(Long id, Long userId) {
-        if (!films.containsKey(id)) {
-            log.error("ошибка с id  {}", id);
-            throw new NotFoundException("Фильма с таким id найдено");
-        }
-        if (!userStorage.getUsersId().contains(userId)) {
-            log.error("ошибка с id  {}", userId);
-            throw new NotFoundException("Юзера с таким id найдено");
-        }
         films.get(id).filmRemoveLike(userId);
     }
 

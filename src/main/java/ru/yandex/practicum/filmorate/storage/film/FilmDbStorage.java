@@ -21,7 +21,6 @@ import java.util.*;
 @AllArgsConstructor
 @Component
 @Primary
-
 public class FilmDbStorage implements FilmStorage {
     private final JdbcTemplate jdbcTemplate;
     private final FilmRowMapper mapper;

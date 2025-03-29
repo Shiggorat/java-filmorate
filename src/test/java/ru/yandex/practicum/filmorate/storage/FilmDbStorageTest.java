@@ -10,7 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Mpa;
-import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
+import ru.yandex.practicum.filmorate.storage.film.FilmDbStorage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,10 +21,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @JdbcTest
 @AutoConfigureTestDatabase
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@ContextConfiguration(classes = {FilmStorage.class})
+@ContextConfiguration(classes = {FilmDbStorage.class})
 @ComponentScan(basePackages = {"ru.yandex.practicum.filmorate.storage.film"})
 class FilmDbStorageTest {
-    private final FilmStorage storage;
+    private final FilmDbStorage storage;
 
     @Test
     void createFilm() {

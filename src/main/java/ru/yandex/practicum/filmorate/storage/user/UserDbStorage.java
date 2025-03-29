@@ -16,11 +16,8 @@ import java.util.*;
 
 @AllArgsConstructor
 @Component
-
 @Slf4j
-
 @Primary
-
 public class UserDbStorage implements UserStorage {
     private final JdbcTemplate jdbcTemplate;
     private final UserRowMapper mapper;

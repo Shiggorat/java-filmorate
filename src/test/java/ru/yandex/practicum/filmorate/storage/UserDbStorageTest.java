@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.storage.user.UserStorage;
+import ru.yandex.practicum.filmorate.storage.user.UserDbStorage;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,10 +19,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @JdbcTest
 @AutoConfigureTestDatabase
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@ContextConfiguration(classes = {UserStorage.class})
+@ContextConfiguration(classes = {UserDbStorage.class})
 @ComponentScan(basePackages = {"ru.yandex.practicum.filmorate.storage.user"})
 class UserDbStorageTest {
-    private final UserStorage storage;
+    private final UserDbStorage storage;
 
     @Test
     void createUser() {

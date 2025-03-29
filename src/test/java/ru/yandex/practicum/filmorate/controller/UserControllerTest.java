@@ -8,7 +8,6 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import ru.yandex.practicum.filmorate.model.User;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 

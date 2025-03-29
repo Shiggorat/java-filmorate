@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.model;
 
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.springframework.validation.annotation.Validated;
 import ru.yandex.practicum.filmorate.annotation.BeforeDate;
 
 import java.time.LocalDate;
@@ -9,7 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@Validated
+@EqualsAndHashCode
 @Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor
 @AllArgsConstructor
 public class Film {
     private Long id;
@@ -25,20 +30,4 @@ public class Film {
     private List<Genre> genres;
     @NonNull
     private Mpa mpa;
-
-    public Film() {
-        this.likes = new ArrayList<>();
-    }
-
-    public void filmAddLike(Long userId) {
-        this.likes.add(userId);
-    }
-
-    public void filmRemoveLike(Long userId) {
-        this.likes.remove(userId);
-    }
-
-    public int getAllLikes() {
-        return this.likes.size();
-    }
  }

@@ -2,9 +2,7 @@ package ru.yandex.practicum.filmorate.model;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import org.springframework.validation.annotation.Validated;
 import ru.yandex.practicum.filmorate.annotation.AfterDate;
 
@@ -14,7 +12,9 @@ import java.util.List;
 
 @Data
 @Validated
+@EqualsAndHashCode
 @Builder(toBuilder = true)
+@RequiredArgsConstructor
 @AllArgsConstructor
 public class User {
 
@@ -27,16 +27,4 @@ public class User {
     @AfterDate(message = "Дата рождения указана неверно")
     private LocalDate birthday;
     private List<Long> friends;
-
-    public User() {
-        this.friends = new ArrayList<>();
-    }
-
-    public void userAddFriend(Long userId) {
-        this.friends.add(userId);
-    }
-
-    public void userRemoveFriend(Long userId) {
-        this.friends.remove(userId);
-    }
 }

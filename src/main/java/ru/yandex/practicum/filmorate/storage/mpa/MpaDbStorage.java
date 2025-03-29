@@ -33,8 +33,7 @@ public class MpaDbStorage implements MpaStorage {
     @Override
     public Mpa getMpaOfFilm(Long id) {
         try {
-            return jdbcTemplate.queryForObject("SELECT * FROM rating_mpa WHERE id IN (SELECT rating_mpa_id FROM films WHERE id = ?);"
-                    , new DataClassRowMapper<>(Mpa.class), id);
+            return jdbcTemplate.queryForObject("SELECT * FROM rating_mpa WHERE id IN (SELECT rating_mpa_id FROM films WHERE id = ?);", new DataClassRowMapper<>(Mpa.class), id);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }

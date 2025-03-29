@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.storage.user;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.DataClassRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,18 +10,25 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.storage.film.FilmRowMapper;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.util.*;
 
-@AllArgsConstructor
+
 @Component
 @Slf4j
 @Primary
 public class UserDbStorage implements UserStorage {
     private final JdbcTemplate jdbcTemplate;
     private final UserRowMapper mapper;
+
+    @Autowired
+    public UserDbStorage(JdbcTemplate jdbcTemplate, UserRowMapper mapper) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.mapper = mapper;
+    }
 
     @Override
     public User createUser(User user) {

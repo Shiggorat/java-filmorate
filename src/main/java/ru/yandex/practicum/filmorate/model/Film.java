@@ -5,11 +5,11 @@ import lombok.*;
 import ru.yandex.practicum.filmorate.annotation.BeforeDate;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
-
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
+@Builder(toBuilder = true)
 @AllArgsConstructor
 public class Film {
     private Long id;
@@ -21,10 +21,13 @@ public class Film {
     private LocalDate releaseDate;
     @Positive(message = "Продолжительность фильма не может быть меньше 0")
     private Integer duration;
-    private Set<Long> likes;
+    private List<Long> likes;
+    private List<Genre> genres;
+    @NonNull
+    private Mpa mpa;
 
     public Film() {
-        this.likes = new HashSet<>();
+        this.likes = new ArrayList<>();
     }
 
     public void filmAddLike(Long userId) {

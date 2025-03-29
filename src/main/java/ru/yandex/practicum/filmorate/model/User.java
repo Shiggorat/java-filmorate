@@ -3,17 +3,18 @@ package ru.yandex.practicum.filmorate.model;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 import ru.yandex.practicum.filmorate.annotation.AfterDate;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
-
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Validated
+@Builder(toBuilder = true)
 @AllArgsConstructor
 public class User {
 
@@ -25,10 +26,10 @@ public class User {
     private String login;
     @AfterDate(message = "Дата рождения указана неверно")
     private LocalDate birthday;
-    private Set<Long> friends;
+    private List<Long> friends;
 
     public User() {
-        this.friends = new HashSet<>();
+        this.friends = new ArrayList<>();
     }
 
     public void userAddFriend(Long userId) {

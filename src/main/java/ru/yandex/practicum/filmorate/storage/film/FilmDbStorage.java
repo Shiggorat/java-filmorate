@@ -126,8 +126,7 @@ public class FilmDbStorage implements FilmStorage {
     @Override
     public List<User> getLikes(Long filmId) {
         try {
-            return jdbcTemplate.query("SELECT * FROM users WHERE id IN (SELECT user_id FROM likes WHERE film_id = ?)"
-                    ,new DataClassRowMapper<>(User.class), filmId);
+            return jdbcTemplate.query("SELECT * FROM users WHERE id IN (SELECT user_id FROM likes WHERE film_id = ?)",new DataClassRowMapper<>(User.class), filmId);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }

@@ -93,8 +93,7 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public void addFriends(Long userId, Long friendId) {
-        jdbcTemplate.update("INSERT INTO friends (user1_id, user2_id, status)values (?, ?, ?)"
-                , userId, friendId, true);
+        jdbcTemplate.update("INSERT INTO friends (user1_id, user2_id, status)values (?, ?, ?)", userId, friendId, true);
     }
 
     @Override
@@ -104,14 +103,12 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public List<User> getFriends(Long id) {
-        return jdbcTemplate.query("SELECT * FROM users WHERE id IN (SELECT user2_id FROM friends WHERE user1_id = ? AND status = true)"
-                , new DataClassRowMapper<>(User.class), id);
+        return jdbcTemplate.query("SELECT * FROM users WHERE id IN (SELECT user2_id FROM friends WHERE user1_id = ? AND status = true)", new DataClassRowMapper<>(User.class), id);
     }
 
     @Override
     public List<User> getCommonFriends(Long id, Long friendId) {
-        return jdbcTemplate.query("SELECT * FROM users WHERE id IN (SELECT user2_id FROM friends WHERE user1_id = ? AND status = true AND user2_id IN ( SELECT user2_id FROM friends WHERE user1_id = ? AND status = true))"
-                , new DataClassRowMapper<>(User.class), id, friendId);
+        return jdbcTemplate.query("SELECT * FROM users WHERE id IN (SELECT user2_id FROM friends WHERE user1_id = ? AND status = true AND user2_id IN ( SELECT user2_id FROM friends WHERE user1_id = ? AND status = true))", new DataClassRowMapper<>(User.class), id, friendId);
     }
 }
 

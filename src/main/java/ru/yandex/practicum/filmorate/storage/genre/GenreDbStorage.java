@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Genre;
 
+import java.util.Collections;
 import java.util.List;
 
 @AllArgsConstructor
@@ -43,8 +44,17 @@ public class GenreDbStorage implements GenreStorage {
 
     @Override
     public boolean checkGenresExists(List<Genre> genres) {
+        if (genres.isEmpty()) {
+            return true;
+        }
+        List<Long> genreIds = genres.stream()
+                .map(Genre::getId)
+                .toList();
+        String sql = "SELECT id FROM genres WHERE id IN (" +
+                String.join(",", Collections.nCopies(genreIds.size(), "?")) + ")";
+        List<Long> existingIds = jdbcTemplate.queryForList(sql, Long.class, genreIds.toArray());
         for (Genre genre : genres) {
-            if ((jdbcTemplate.query("SELECT * FROM genres WHERE id = ?", new DataClassRowMapper<>(Genre.class),genre.getId())).isEmpty()) {
+            if (!existingIds.contains(genre.getId())) {
                 throw new NotFoundException("Жанр с id = " + genre.getId() + " отсутствует");
             }
         }

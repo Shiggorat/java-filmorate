@@ -105,7 +105,18 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public List<User> getCommonFriends(Long id, Long friendId) {
-        return jdbcTemplate.query("SELECT * FROM users WHERE id IN (SELECT user2_id FROM friends WHERE user1_id = ? AND status = true AND user2_id IN ( SELECT user2_id FROM friends WHERE user1_id = ? AND status = true))", new DataClassRowMapper<>(User.class), id, friendId);
+        String sql = "SELECT * FROM users " +
+                "WHERE id IN (" +
+                "    SELECT user2_id " +
+                "    FROM friends " +
+                "    WHERE user1_id = ? AND status = true " +
+                "    AND user2_id IN (" +
+                "        SELECT user2_id " +
+                "        FROM friends " +
+                "        WHERE user1_id = ? AND status = true" +
+                "    )" +
+                ")";
+        return jdbcTemplate.query(sql, new DataClassRowMapper<>(User.class), id, friendId);
     }
 }
 

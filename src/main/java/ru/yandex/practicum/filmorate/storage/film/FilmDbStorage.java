@@ -42,9 +42,11 @@ public class FilmDbStorage implements FilmStorage {
         film.setId(keyHolder.getKey().longValue());
         if (film.getGenres() != null) {
             Set<Genre> genres = new LinkedHashSet<>(film.getGenres());
+            List<Object[]> batchArgs = new ArrayList<>();
             for (Genre genre : genres) {
-                jdbcTemplate.update("INSERT INTO films_genre (film_id, genre_id)values(?,?)", film.getId(), genre.getId());
+                batchArgs.add(new Object[]{film.getId(), genre.getId()});
             }
+            jdbcTemplate.batchUpdate("INSERT INTO films_genre (film_id, genre_id) VALUES (?, ?)", batchArgs);
         }
         return film;
     }

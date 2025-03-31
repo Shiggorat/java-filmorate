@@ -2,14 +2,17 @@ package ru.yandex.practicum.filmorate.model;
 
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.springframework.validation.annotation.Validated;
 import ru.yandex.practicum.filmorate.annotation.BeforeDate;
-
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
-
+import java.util.List;
 
 @Data
+@Validated
+@EqualsAndHashCode
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@RequiredArgsConstructor
 @AllArgsConstructor
 public class Film {
     private Long id;
@@ -21,21 +24,8 @@ public class Film {
     private LocalDate releaseDate;
     @Positive(message = "Продолжительность фильма не может быть меньше или равна 0")
     private Integer duration;
-    private Set<Long> likes;
-
-    public Film() {
-        this.likes = new HashSet<>();
-    }
-
-    public void filmAddLike(Long userId) {
-        this.likes.add(userId);
-    }
-
-    public void filmRemoveLike(Long userId) {
-        this.likes.remove(userId);
-    }
-
-    public int getAllLikes() {
-        return this.likes.size();
-    }
+    private List<Long> likes;
+    private List<Genre> genres;
+    @NonNull
+    private Mpa mpa;
  }

@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.controller;
 
-
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,8 +7,9 @@ import org.junit.jupiter.api.Test;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Mpa;
+
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -22,7 +22,13 @@ public class FilmControllerTest {
     void start() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
-        film = new Film(1L,"film1", "descr1", LocalDate.of(2025,2,12), 100, new HashSet<>());
+        film = Film.builder()
+                .name("film1")
+                .description("descriptionFilm1")
+                .releaseDate(LocalDate.of(2000,12,12))
+                .duration(100)
+                .mpa(new Mpa(1L,"G"))
+                .build();
     }
 
     @Test
